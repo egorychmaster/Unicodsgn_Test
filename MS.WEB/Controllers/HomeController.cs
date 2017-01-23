@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using log4net;
 using MS.Entity.Entity;
 using MS.WEB.Models;
 using MS.WEB.Properties;
@@ -14,6 +14,9 @@ namespace MS.WEB.Controllers
 {
     public class HomeController : Controller
     {
+        private static log4net.ILog Log { get; set; }
+        ILog log = log4net.LogManager.GetLogger(typeof(HomeController));
+
         private static IMapper mapper;
 
         public HomeController()
@@ -36,7 +39,8 @@ namespace MS.WEB.Controllers
              
             if (ModelState.IsValid && !(mess.Email == false && mess.Sms == false && mess.Push == false))
             {
-
+                try
+                {
                 var messDTO = mapper.Map<MessageView, Message>(mess);
 
                 var baseUrl = Settings.Default.MSEndpointAddress;
@@ -64,6 +68,11 @@ namespace MS.WEB.Controllers
 
                 return View("SendMessageComplete");
             }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
 
             return View(mess);
         }
@@ -74,6 +83,8 @@ namespace MS.WEB.Controllers
         /// <returns></returns>
         public ActionResult Queue(int page = 1)
         {
+            try
+            {
             var baseUrl = Settings.Default.MSEndpointAddress;
             var client = new RestClient(baseUrl);
             var request = new RestRequest("Queue", Method.GET);
@@ -85,8 +96,13 @@ namespace MS.WEB.Controllers
             IEnumerable<QueueView> phonesPerPages = QueueList.Skip((page - 1) * pageSize).Take(pageSize);
             PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = QueueList.Count };
             IndexViewModel ivm = new IndexViewModel { PageInfo = pageInfo, Queues = phonesPerPages };
-
             return View(ivm);
+        }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return View(new IndexViewModel());
+            }
         }
 
         /// <summary>
@@ -95,6 +111,8 @@ namespace MS.WEB.Controllers
         /// <returns></returns>
         public ActionResult QueueStep(bool step = false)
         {
+            try
+            {
             if (step)
             {// Отправка
                 var baseUrl = Settings.Default.MSEndpointAddress;
@@ -107,7 +125,11 @@ namespace MS.WEB.Controllers
                 ViewBag.NextStep = true;
                 ViewBag.Result = result;
             }
-
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             return View();
         }
 

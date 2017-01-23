@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Microsoft.Practices.Unity;
-using MS.API.Repositories;
-using MS.DAL;
 using MS.Entity.Entity;
 using MS.Entity.Interfaces;
 
