@@ -1,0 +1,107 @@
+﻿@using MS.Entity.Entity
+@using MS.WEB.Models;
+@using MS.WEB.Helpers;
+@model IndexViewModel
+@*@model IEnumerable<QueueView>*@
+
+@{
+    ViewBag.Title = "Очередь сообщений (для роли Admin)";
+}
+
+<h2>@ViewBag.Title</h2>
+<br/>
+
+<table class="table">
+    <tr style="background: #cccccc;">
+        <td><strong>ID</strong></td>
+        <td><strong>Текст сообщения</strong></td>
+        <td><strong>Email</strong></td>
+        <td><strong>Sms</strong></td>
+        <td><strong>Push</strong></td>
+        <td><strong>Состояние сообщения</strong></td>
+    </tr>
+    @foreach (var item in Model.Queues)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Text</td>
+            <td>@item.IsEmailSend</td>
+            <td>@item.IsSmsSend</td>
+            <td>@item.IsPushSend</td>
+            <td>
+                @if (item.State == StateType.ToSend)
+                {
+                    <span>К отправке</span>
+                }
+                else
+                if(item.State == StateType.Error)
+                {
+                    <span>Ошибка отправки</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
+<br />
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("Queue", new { page = x }))
+</div>
+
+
+
+@*<p>*@
+@*    @Html.ActionLink("Create New", "Create")*@
+@*</p>*@
+@*<table class="table">*@
+@*    <tr>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.Id)*@
+@*        </th>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.Text)*@
+@*        </th>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.IsEmailSend)*@
+@*        </th>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.IsSmsSend)*@
+@*        </th>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.IsSmsSend)*@
+@*        </th>*@
+@*        <th>*@
+@*            @Html.DisplayNameFor(model => model.State)*@
+@*        </th>*@
+@*        <th></th>*@
+@*    </tr>*@
+@**@
+@*    @foreach (var item in Model)*@
+@*    {*@
+@*        <tr>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.Id)*@
+@*            </td>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.Text)*@
+@*            </td>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.IsEmailSend)*@
+@*            </td>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.IsSmsSend)*@
+@*            </td>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.IsPushSend)*@
+@*            </td>*@
+@*            <td>*@
+@*                @Html.DisplayFor(modelItem => item.State)*@
+@*            </td>*@
+@*$1$            <td>#1#*@
+@*$1$                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |#1#*@
+@*$1$                @Html.ActionLink("Details", "Details", new { id = item.Id }) |#1#*@
+@*$1$                @Html.ActionLink("Delete", "Delete", new { id = item.Id })#1#*@
+@*$1$            </td>#1#*@
+@*        </tr>*@
+@*    }*@
+@**@
+@*</table>*@

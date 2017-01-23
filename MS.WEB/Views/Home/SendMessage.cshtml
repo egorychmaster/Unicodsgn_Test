@@ -1,0 +1,31 @@
+﻿@model MS.WEB.Models.MessageView
+
+@{
+    ViewBag.Title = "Введите и отправьте новое сообщение (для роли User)";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br/>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.Text, "Текст сообщения")
+    <br />
+    @Html.TextAreaFor(model => model.Text, new { cols = 80, @rows = 5 })<br />
+    @Html.ValidationMessageFor(model => model.Text)
+    <br /><br />
+    @Html.EditorFor(model => model.Email)
+    <span>&nbsp;&nbsp;</span>
+    @Html.LabelFor(model => model.Email, "Email")
+    <br />
+    @Html.EditorFor(model => model.Sms)
+    <span>&nbsp;&nbsp;</span>
+    @Html.LabelFor(model => model.Sms, "Sms")
+    <br />
+    @Html.EditorFor(model => model.Push)
+    <span>&nbsp;&nbsp;</span>
+    @Html.LabelFor(model => model.Push, "Push")
+    <br /><br />
+    <input type="submit" class = "btn btn-primary" value="Отправить в очередь" />
+}

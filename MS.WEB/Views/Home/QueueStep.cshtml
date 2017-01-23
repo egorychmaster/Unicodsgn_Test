@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Следующий шаг (для роли Admin)";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+<br />
+
+@if (ViewBag.NextStep != null)
+{
+    if (ViewBag.Result)
+    {
+        <h3 style="color: #3dc33e;">Сообщение успешно отправлено!</h3>
+    }
+    else
+    {
+        <h3 style="color: #f9595f;">Сообщение не отправлено.</h3>
+    }
+
+    <br />
+    <a href="@Url.Action("QueueStep")" class="btn btn-success">
+        Вернуться
+    </a>
+}
+else
+{
+    <a href="@Url.Action("QueueStep", new { step = true })" class="btn btn-primary">
+        Отправить сообщение
+    </a>
+}
+
+<br />
